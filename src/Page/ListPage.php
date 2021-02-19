@@ -70,7 +70,6 @@ class ListPage extends \Page
 	public function updateMetaTags(&$tags)
 	{
 		$metaTags = [
-			'key' => Client::config()->get('destinations_key'),
 			'host' => Client::config()->get('destinations_endpoint'),
 			'pageTitle' => $this->Title,
 			'categories' => $this->Categories ? json_decode($this->Categories, true) : [],
@@ -82,6 +81,11 @@ class ListPage extends \Page
 			'content' => json_encode($metaTags)
 		]);
 	}
+
+	public function getEndpoint()
+    {
+        return Client::config()->get('destinations_endpoint');
+    }
 
     public static function default_to_page()
     {

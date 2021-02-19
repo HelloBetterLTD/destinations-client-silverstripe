@@ -4,7 +4,7 @@ namespace DD\Client\SilverStripe\Model\Listing;
 
 use DD\Client\SilverStripe\Client;
 use DD\Client\SilverStripe\Model\ImageCached;
-use DD\Client\SilverStripe\Model\Page\ListPage;
+use DD\Client\SilverStripe\Page\ListPage;
 use SilverStripe\Control\Controller;
 use SilverStripe\Control\Director;
 use SilverStripe\SiteConfig\SiteConfig;
@@ -15,12 +15,6 @@ use SilverStripe\View\ArrayData;
 
 class Listing extends ArrayData
 {
-
-    public function getTitle()
-    {
-        return $this->Name;
-    }
-
     public function getLink()
     {
         $page = ListPage::get()->first();
@@ -31,7 +25,7 @@ class Listing extends ArrayData
     {
         return Director::absoluteURL($this->getLink());
 	}
-	
+
     public function ChangeFrequency()
     {
         return 'Daily';
@@ -104,7 +98,7 @@ class Listing extends ArrayData
     {
         return $this->MetaData ? $this->MetaData->keywords : null;
     }
-    
+
 	public function MetaDescription()
     {
         return $this->MetaData ? $this->MetaData->meta_description : null;
@@ -114,7 +108,7 @@ class Listing extends ArrayData
     {
         return $this->MetaData ? $this->MetaData->canonical : null;
     }
-    
+
     public function getOGPostType()
     {
         return $this->MetaData ? $this->MetaData->og_type : 'article';

@@ -17,9 +17,8 @@
         }
     ],
     "require": {
-        "destinations/destinations-client-core": "^1.0.0",
+        "destinations/destinations-client-core": "dev-master",
         "sheadawson/silverstripe-dependentdropdownfield": "^2",
-        "silverstripers/seo": "^1.2.2",
         "silverstripe/googlesitemaps": "2.1.2"
     },
     "require-dev": {

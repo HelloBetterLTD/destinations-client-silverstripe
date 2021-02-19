@@ -19,13 +19,6 @@ class ListPageController extends \PageController
 
 	private $listing_cache = null;
 
-	public function init()
-	{
-		parent::init();
-//		Requirements::css(RESOURCES_DIR . '/vendor/destinations/destinations-client-core/client/dist/bundle.min.css');
-//		Requirements::javascript(RESOURCES_DIR . '/vendor/destinations/destinations-client-core/client/dist/bundle.js');
-	}
-
 	public function index()
 	{
 		return $this;
@@ -36,7 +29,7 @@ class ListPageController extends \PageController
 		if ($listing = $this->getListing()) {
 			return $this->customise([
 				'Listing' => $listing,
-				'Title' => $listing->Name,
+				'Title' => $listing->Title,
 			]);
 		}
 		return $this->httpError('404');
