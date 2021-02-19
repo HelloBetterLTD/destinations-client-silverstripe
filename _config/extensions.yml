@@ -1,0 +1,7 @@
+---
+Name: dd_client_extension
+---
+
+SilverStripe\Core\Injector\Injector:
+  Wilr\GoogleSitemaps\Control\GoogleSitemapController:
+    class: DD\Client\SilverStripe\Extension\GoogleSitemap\Controller

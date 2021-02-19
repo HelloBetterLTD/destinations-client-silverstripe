@@ -1,0 +1,10 @@
+---
+Name: dd_ss_routes
+After:
+  - '#rootroutes'
+  - '#coreroutes'
+  - '#googlesitemaproutes'
+---
+SilverStripe\Control\Director:
+  rules:
+    search: DD\Client\SilverStripe\Controller\SearchPageController

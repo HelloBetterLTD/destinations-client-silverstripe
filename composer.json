@@ -1,0 +1,40 @@
+{
+    "name": "destinations/destinations-client-sliverstripe",
+    "type": "silverstripe-vendormodule",
+    "description": "Destinations SilverStripe Client",
+    "keywords": [
+        "framework",
+        "destinations",
+        "destinations-client",
+        "silverstripe-client",
+        "silverstripe"
+    ],
+    "homepage": "http://api.discover.lk/",
+    "authors": [
+        {
+            "name": "Nivanka Fonseka",
+            "email": "nivanka@silverstripers.com"
+        }
+    ],
+    "require": {
+        "destinations/destinations-client-core": "^1.0.0",
+        "sheadawson/silverstripe-dependentdropdownfield": "^2",
+        "silverstripers/seo": "^1.2.2",
+        "silverstripe/googlesitemaps": "2.1.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.0",
+        "friendsofphp/php-cs-fixer": "^2.4"
+    },
+    "repositories": {
+        "destinations/destinations-client-core": {
+            "type": "git",
+            "url": "git@bitbucket.org:silverstripersltd/destinations-client-core.git"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "DD\\Client\\SilverStripe\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,9 @@
+---
+Name: dd_ss_search
+---
+
+#DD\Client\SilverStripe\Controller\SearchPageController:
+#  search_type: fulltext
+#  add_total_results_count: true
+#  search_classes:
+#    - SilverStripe\CMS\Model\SiteTree

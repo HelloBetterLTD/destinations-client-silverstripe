@@ -1,0 +1,11 @@
+---
+Name: destinations_client
+---
+SilverStripe\Core\Injector\Injector:
+  Psr\SimpleCache\CacheInterface.DDClient:
+    factory: SilverStripe\Core\Cache\CacheFactory
+    constructor:
+      defaultLifetime: 600
+      namespace: "DDClient"
+DD\Client\SilverStripe\Client:
+  remove_cache_when_logged_in: false
