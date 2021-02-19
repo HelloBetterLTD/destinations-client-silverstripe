@@ -1,5 +1,5 @@
 {
-    "name": "destinations/destinations-client-sliverstripe",
+    "name": "destinations/destinations-client-silverstripe",
     "type": "silverstripe-vendormodule",
     "description": "Destinations SilverStripe Client",
     "keywords": [
