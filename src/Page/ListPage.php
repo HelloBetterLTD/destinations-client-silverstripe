@@ -4,15 +4,17 @@ namespace DD\Client\SilverStripe\Page;
 
 use DD\Client\SilverStripe\Client;
 use DD\Client\SilverStripe\Page\ListPageController;
+use DD\Client\SilverStripe\Model\Page;
+use DD\Client\SilverStripe\Forms\HierarchicalCheckboxSetField;
 use Sheadawson\DependentDropdown\Forms\DependentDropdownField;
 use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\CheckboxField;
+use SilverStripe\Forms\CheckboxSetField;
 use SilverStripe\Forms\DropdownField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\View\HTML;
-use DD\Client\SilverStripe\Model\Page;
 
 class ListPage extends \Page
 {
@@ -41,31 +43,11 @@ class ListPage extends \Page
 		$categories = $client->getCategories(true, null, true);
 		if ($categories && $categories->count()) {
 			$fields->addFieldsToTab('Root.Main', [
-				TextField::create(
-					'Categories', 'Categories'
-				),
+                HierarchicalCheckboxSetField::create('Categories', 'Categories', $categories),
+//				TextField::create(
+//					'Categories', 'Categories'
+//				),
 			], 'Content');
-		}
-
-		/* @var $regions ArrayList */
-		$regions = $client->getRegions();
-		if ($regions && $regions->count()) {
-			$arrRegions = $regions->map('ID', 'Name')->toArray();
-			$fields->addFieldsToTab(
-				'Root.Main',
-				[
-				    CheckboxField::create('HideRegionFilter', 'Hide regions filters?'),
-                    $regionField = DropdownField::create('Region', 'Region', $arrRegions)->setEmptyString('(Select One)'),
-                    DependentDropdownField::create('Location', 'Location', function ($regionID) use ($client) {
-                        $arrLocations = [];
-                        /* @var $locations ArrayList */
-                        $locations = $client->getLocations($regionID);
-                        $arrLocations = $locations->map('ID', 'Name')->toArray();
-                        return $arrLocations;
-                    })->setDepends($regionField)->setEmptyString('(Select One)')
-                ],
-				'Content'
-			);
 		}
 
 		return $fields;
