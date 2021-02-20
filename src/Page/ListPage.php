@@ -43,10 +43,8 @@ class ListPage extends \Page
 		$categories = $client->getCategories(true, null, true);
 		if ($categories && $categories->count()) {
 			$fields->addFieldsToTab('Root.Main', [
-                HierarchicalCheckboxSetField::create('Categories', 'Categories', $categories),
-//				TextField::create(
-//					'Categories', 'Categories'
-//				),
+                HierarchicalCheckboxSetField::create('Categories', 'Categories', $categories)
+                    ->setValueField('Identifier'),
 			], 'Content');
 		}
 

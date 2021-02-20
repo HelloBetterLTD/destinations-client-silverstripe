@@ -13,6 +13,8 @@ class HierarchicalCheckboxSetField extends CheckboxSetField
     /** @var null | SS_List */
     protected $sourceList = null;
 
+    protected $valueField = 'ID';
+
     public function __construct($name, $title = null, SS_List $source = null, $value = null)
     {
         $this->setSourceList($source);
@@ -20,6 +22,17 @@ class HierarchicalCheckboxSetField extends CheckboxSetField
             $title = $name;
         }
         parent::__construct($name, $title, $source, $value);
+    }
+
+    public function setValueField($field)
+    {
+        $this->valueField = $field;
+        return $this;
+    }
+
+    public function getValueField()
+    {
+        return $this->valueField;
     }
 
     public function setSourceList(SS_List $list)
@@ -53,7 +66,7 @@ class HierarchicalCheckboxSetField extends CheckboxSetField
             $sourceObj = $this->getSourceList();
         }
         foreach ($sourceObj as $item) {
-            $itemValue = $item->ID;
+            $itemValue = $item->{$this->valueField};
             $itemID = Convert::raw2htmlid("{$formID}_{$itemValue}");
             $odd = !$odd;
             $extraClass = $odd ? 'odd' : 'even';
