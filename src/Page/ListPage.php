@@ -19,7 +19,7 @@ use SilverStripe\View\HTML;
 class ListPage extends \Page
 {
 	private static $db = [
-		'Categories' => 'Text',
+		'CategoryIDs' => 'Text',
 	];
 
 	private static $singular_name = 'Destinations List Page';
@@ -43,7 +43,7 @@ class ListPage extends \Page
 		$categories = $client->getCategories(true, null, true);
 		if ($categories && $categories->count()) {
 			$fields->addFieldsToTab('Root.Main', [
-                HierarchicalCheckboxSetField::create('Categories', 'Categories', $categories)
+                HierarchicalCheckboxSetField::create('CategoryIDs', 'Categories', $categories)
                     ->setValueField('Identifier'),
 			], 'Content');
 		}
@@ -63,6 +63,16 @@ class ListPage extends \Page
             }
         }
         return $this->isEventCache;
+    }
+
+    public function getSettings()
+    {
+        $list = [];
+        if ($this->CategoryIDs) {
+            $list['Categories'] = json_decode($this->CategoryIDs, true);
+        }
+        $this->extend('updateSettings', $list);
+        return Convert::raw2htmlatt(json_encode($list));
     }
 
 	public function updateMetaTags(&$tags)
