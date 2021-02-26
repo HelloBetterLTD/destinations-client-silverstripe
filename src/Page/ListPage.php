@@ -19,6 +19,8 @@ use SilverStripe\View\HTML;
 class ListPage extends \Page
 {
 	private static $db = [
+	    'ResultsTitle' => 'Varchar(300)',
+        'IsEventPage' => 'Boolean',
 		'CategoryIDs' => 'Text',
 	];
 
@@ -32,15 +34,18 @@ class ListPage extends \Page
 
 	private static $controller_name = ListPageController::class;
 
-	private $isEventCache = null;
-
 	public function getCMSFields()
 	{
 		$fields = parent::getCMSFields();
 
+		$fields->insertAfter(
+		    'MenuTitle',
+            TextField::create('ResultsTitle')->setDescription('Please use merge tag {$ResultsCount} to display results count in title. eg: "{$ResultsCount} activities to discover"')
+        );
+
 		$client = Client::inst();
 
-		$categories = $client->getCategories(true, null, true);
+		$categories = $client->getCategories(null, true, null, true);
 		if ($categories && $categories->count()) {
 			$fields->addFieldsToTab('Root.Main', [
                 HierarchicalCheckboxSetField::create('CategoryIDs', 'Categories', $categories)
@@ -48,21 +53,25 @@ class ListPage extends \Page
 			], 'Content');
 		}
 
+		$fields->addFieldToTab('Root.Main', CheckboxField::create('IsEventPage'));
+
+		$this->extend('updateListPageCMSFields', $fields);
+
 		return $fields;
 	}
 
-    public function IsEventsPage()
+    public function onBeforeWrite()
     {
-        if(is_null($this->isEventCache)) {
+        parent::onBeforeWrite();
+        if ($this->isChanged('CategoryIDs', 2)) {
             $client = Client::inst();
-            if ($this->Categories && ($ids = json_decode($this->Categories)) && count($ids) == 1) {
-                $categoryDetails = $client->getCategory($ids[0], false, true);
-                if ($categoryDetails) {
-                    $this->isEventCache = $categoryDetails->IsEventCategory == 1;
-                }
+            $isEventPage = false;
+            if ($this->CategoryIDs && ($ids = json_decode($this->CategoryIDs))) {
+                $categories = $client->getCategories($ids);
+                $isEventPage = $categories->count() && !!$categories->find('IsEventCategory', true);
             }
+            $this->IsEventPage = $isEventPage;
         }
-        return $this->isEventCache;
     }
 
     public function getSettings()
@@ -81,7 +90,7 @@ class ListPage extends \Page
 			'host' => Client::config()->get('destinations_endpoint'),
 			'pageTitle' => $this->Title,
 			'categories' => $this->Categories ? json_decode($this->Categories, true) : [],
-            'eventsPage' => $this->IsEventsPage()
+            'eventsPage' => $this->IsEventPage
 		];
 		$tags[] = HTML::createTag('meta', [
 			'name' => '_Destinations',
