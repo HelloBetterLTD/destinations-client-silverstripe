@@ -21,6 +21,7 @@ class ListPage extends \Page
 	private static $db = [
 	    'ResultsTitle' => 'Varchar(300)',
         'IsEventPage' => 'Boolean',
+        'IsAccommodationPage' => 'Boolean',
 		'CategoryIDs' => 'Text',
 	];
 
@@ -53,8 +54,6 @@ class ListPage extends \Page
 			], 'Content');
 		}
 
-		$fields->addFieldToTab('Root.Main', CheckboxField::create('IsEventPage'));
-
 		$this->extend('updateListPageCMSFields', $fields);
 
 		return $fields;
@@ -64,13 +63,16 @@ class ListPage extends \Page
     {
         parent::onBeforeWrite();
         if ($this->isChanged('CategoryIDs', 2)) {
-            $client = Client::inst();
             $isEventPage = false;
+            $isAccommodationPage = false;
             if ($this->CategoryIDs && ($ids = json_decode($this->CategoryIDs))) {
+                $client = Client::inst();
                 $categories = $client->getCategories($ids);
                 $isEventPage = $categories->count() && !!$categories->find('IsEventCategory', true);
+                $isAccommodationPage = $categories->count() && !!$categories->find('IsAccommodationCategory', true);
             }
             $this->IsEventPage = $isEventPage;
+            $this->IsAccommodationPage = $isAccommodationPage;
         }
     }
 
@@ -78,8 +80,12 @@ class ListPage extends \Page
     {
         $list = [];
         if ($this->CategoryIDs) {
-            $list['Categories'] = json_decode($this->CategoryIDs, true);
+            $list['categories'] = json_decode($this->CategoryIDs, true);
         }
+        $list['endpoint'] = Client::config()->get('destinations_endpoint');
+        $list['resultsTitle'] = $this->ResultsTitle;
+        $list['hasEvents'] = $this->IsEventPage;
+        $list['hasAccommodations'] = $this->IsAccommodationPage;
         $this->extend('updateSettings', $list);
         return Convert::raw2htmlatt(json_encode($list));
     }
