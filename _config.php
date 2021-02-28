@@ -2,6 +2,7 @@
 
 use DD\Client\Core\Parsers\Parser;
 use DD\Client\Core\Parsers\CategoryParser as SS_CategoryParser;
+use DD\Client\Core\Parsers\TagParser as SS_TagParser;
 use DD\Client\Core\Parsers\EventParser as SS_EventParser;
 use DD\Client\Core\Parsers\ListingParser as SS_ListingParser;
 use DD\Client\Core\Parsers\ListingsParser as SS_ListingsParser;
@@ -13,6 +14,7 @@ use DD\Client\Core\Parsers\OccurrenceParser as SS_OccurrenceParser;
 
 use DD\Client\SilverStripe\Controller\SearchPageController;
 use DD\Client\SilverStripe\Parsers\CategoryParser;
+use DD\Client\SilverStripe\Parsers\TagParser;
 use DD\Client\SilverStripe\Parsers\EventParser;
 use DD\Client\SilverStripe\Parsers\ListingParser;
 use DD\Client\SilverStripe\Parsers\ListingsParser;
@@ -26,6 +28,7 @@ use SilverStripe\Core\Config\Config;
 use SilverStripe\ORM\Search\FulltextSearchable;
 
 Parser::register_parser(SS_CategoryParser::class, CategoryParser::class);
+Parser::register_parser(SS_TagParser::class, TagParser::class);
 Parser::register_parser(SS_EventParser::class, EventParser::class);
 Parser::register_parser(SS_ListingParser::class, ListingParser::class);
 Parser::register_parser(SS_ListingsParser::class, ListingsParser::class);
