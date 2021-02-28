@@ -52,6 +52,7 @@ class Listing extends ArrayData
 			$list = $client->searchListings(
                 null,
 				null,
+				null,
 				'',
 				null,
 				null,
@@ -74,6 +75,7 @@ class Listing extends ArrayData
             $client = Client::inst();
             $list = $client->searchListings(
                 [ $mainCategoryID ],
+                null,
                 null,
                 '',
                 null,

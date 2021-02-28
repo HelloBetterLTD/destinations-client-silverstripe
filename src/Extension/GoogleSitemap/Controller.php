@@ -51,6 +51,7 @@ class Controller extends GoogleSitemapController
             $items = Client::inst()->searchListings(
                 null,
                 null,
+                null,
                 '',
                 null,
                 null,
