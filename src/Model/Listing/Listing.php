@@ -17,8 +17,8 @@ class Listing extends ArrayData
 {
     public function getLink()
     {
-        $page = ListPage::get()->first();
-        return $page ? Controller::join_links($page->Link(), 'listing', $this->URLSlug) : '';
+        $page = ListPage::default_to_page() ?: ListPage::get()->first();
+        return $page ? Controller::join_links($page->Link(), 'listing', $this->URLSegment) : '';
     }
 
     public function AbsoluteLink()
