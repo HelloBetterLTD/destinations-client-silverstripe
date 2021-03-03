@@ -3,6 +3,9 @@
 namespace DD\Client\SilverStripe\Page;
 
 use DD\Client\SilverStripe\Client;
+use DD\Client\SilverStripe\Model\Listing\Listing;
+use SilverStripe\ORM\FieldType\DBDate;
+use SilverStripe\ORM\FieldType\DBDatetime;
 use SilverStripe\Versioned\Versioned;
 use SilverStripe\View\Requirements;
 use SilverStripe\View\ArrayData;
@@ -26,6 +29,7 @@ class ListPageController extends \PageController
 
 	public function listing()
 	{
+	    /** @var Listing $listing */
 		if ($listing = $this->getListing()) {
 			return $this->customise([
 				'Listing' => $listing,

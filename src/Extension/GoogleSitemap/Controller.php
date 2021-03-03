@@ -52,6 +52,7 @@ class Controller extends GoogleSitemapController
                 null,
                 null,
                 null,
+                null,
                 '',
                 null,
                 null,

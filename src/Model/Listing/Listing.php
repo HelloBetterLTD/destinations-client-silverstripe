@@ -51,6 +51,7 @@ class Listing extends ArrayData
             $client = Client::inst();
 			$list = $client->searchListings(
                 null,
+                null,
 				null,
 				null,
 				'',
@@ -68,12 +69,13 @@ class Listing extends ArrayData
 		}
 	}
 
-	public function getRelatedListings($limit = 4)
+	public function getRelatedListings($limit = 4, $listingType = null)
 	{
-		$mainCategoryID = $this->MainCategory ? $this->MainCategory->ID : 0;
+		$mainCategoryID = $this->MainCategory ? $this->MainCategory->Identifier : 0;
 		if ($mainCategoryID) {
             $client = Client::inst();
             $list = $client->searchListings(
+                $listingType,
                 [ $mainCategoryID ],
                 null,
                 null,
