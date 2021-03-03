@@ -21,8 +21,8 @@ class ListingParser extends SS_ListingParser
 	public function processBasicData(&$data)
 	{
 	    parent::processBasicData($data);
-		if (!empty($data['Description'])) {
-			$data['Description'] = DBHTMLText::create()->setValue($data['Description']);
+		if (!empty($data['Content'])) {
+			$data['Content'] = DBHTMLText::create()->setValue($data['Content']);
 		}
 		if (!empty($data['AdditionalInfo'])) {
 			$data['AdditionalInfo'] = DBHTMLText::create()->setValue($data['AdditionalInfo']);
@@ -64,6 +64,37 @@ class ListingParser extends SS_ListingParser
         }
         if ($hours->count()) {
             $data['OpeningHours'] = $hours;
+        }
+
+        if (!empty($data['OperatingMonths'])) {
+            $json = $data['OperatingMonths'];
+            $arrMonths = json_decode($json, true);
+
+            $arrGroups = [];
+            $i = 0;
+            foreach ($arrMonths as $month => $value) {
+                if ($value) {
+                    $arrGroup[] = $month;
+                } else {
+                    if (count($arrGroup)) {
+                        $arrGroups[] = $arrGroup;
+                    }
+                    $arrGroup = [];
+                }
+                $i++;
+                if ($i == 12) {
+                    $arrGroups[] = $arrGroup;
+                }
+            }
+            $arrParts = [];
+            foreach ($arrGroups as $arrGroup) {
+                if (count($arrGroup) == 1) {
+                    $arrParts[] = $arrGroup[0];
+                } else {
+                    $arrParts[] = $arrGroup[0] . ' - ' . $arrGroup[count($arrGroup) - 1];
+                }
+            }
+            $data['OperatingMonths'] = implode(', ', $arrParts);
         }
 	}
 
