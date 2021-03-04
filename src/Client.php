@@ -70,20 +70,24 @@ class Client extends SS_Client implements Flushable
 		    $call = true;
         }
 		if ($call) {
-			$response = $this->getClient()->post(
-				self::get_end_point(),
-				$options
-			);
+			try {
+                $response = $this->getClient()->post(
+                    self::get_end_point(),
+                    $options
+                );
 
-            $json = $response->getBody()->getContents();
-			if ($response->getStatusCode() !== 200) {
-				return [];
-			}
-			$result = json_decode($json, true);
-			if (!isset($result['data'][$queryName])) {
-				return [];
-			}
-			$cache->set($cacheKey, $json);
+                $json = $response->getBody()->getContents();
+                if ($response->getStatusCode() !== 200) {
+                    return [];
+                }
+                $result = json_decode($json, true);
+                if (!isset($result['data'][$queryName])) {
+                    return [];
+                }
+                $cache->set($cacheKey, $json);
+            } catch (\Exception $e) {
+			    return null;
+            }
 		} else {
 			$result = json_decode($json, true);
 		}
