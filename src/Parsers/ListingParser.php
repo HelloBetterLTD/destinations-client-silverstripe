@@ -76,13 +76,13 @@ class ListingParser extends SS_ListingParser
                 if ($value) {
                     $arrGroup[] = $month;
                 } else {
+                    $arrGroup = [];
                     if (count($arrGroup)) {
                         $arrGroups[] = $arrGroup;
                     }
-                    $arrGroup = [];
                 }
                 $i++;
-                if ($i == 12) {
+                if ($i == 12 && count($arrGroup)) {
                     $arrGroups[] = $arrGroup;
                 }
             }
