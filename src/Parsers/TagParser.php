@@ -19,6 +19,9 @@ class TagParser extends SS_TagParser
     {
         if ($items && is_array($items)) {
             foreach ($items as $item) {
+                if (!empty($item['node'])) {
+                    $item = $item['node'];
+                }
                 $this->iterator->push(ArrayData::create($item));
             }
         }

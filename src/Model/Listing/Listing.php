@@ -17,6 +17,9 @@ class Listing extends ArrayData
 {
     public function getLink()
     {
+        if ($this->hasMethod('getCustomLink')) {
+            return $this->getCustomLink();
+        }
         $page = ListPage::default_to_page() ?: ListPage::get()->first();
         return $page ? Controller::join_links($page->Link(), 'listing', $this->URLSegment) : '';
     }

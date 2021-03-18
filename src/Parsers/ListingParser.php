@@ -108,6 +108,16 @@ class ListingParser extends SS_ListingParser
 		}
 	}
 
+	public function processTags(&$data)
+	{
+		if (!empty($data['Tags'])) {
+			$parser = Parser::get_parser_for(TagParser::class);
+			$data['Tags'] = $parser->parse($data['Tags']['edges']);
+		} else {
+			$data['Tags'] = new ArrayList();
+		}
+	}
+
 	public function processGalleryImages(&$data)
 	{
 		if (!empty($data['GalleryImages'])) {
