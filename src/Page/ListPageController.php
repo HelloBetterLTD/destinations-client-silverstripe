@@ -44,7 +44,7 @@ class ListPageController extends \PageController
 		if ($this->listing_cache) {
 			return $this->listing_cache;
 		}
-		$segment = $this->request->param('Segment');
+		$segment = $this->request->param('ID');
 		$stage = Versioned::LIVE;
 		$client = Client::inst();
 		if ($listing = $client->getListing($segment)) {
